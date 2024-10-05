@@ -340,7 +340,7 @@ cython_debug/
 
 # dependencies
 /.pnp
-/node_modules
+/*/node_modules
 .pnp.js
 .yarn/install-state.gz
 
