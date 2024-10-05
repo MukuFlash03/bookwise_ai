@@ -1,0 +1,8 @@
+{
+  "/dashboard/books/[book_id]/visuals/page": "app/dashboard/books/[book_id]/visuals/page.js",
+  "/dashboard/books/[book_id]/page": "app/dashboard/books/[book_id]/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/api/create-knowledge-graph/route": "app/api/create-knowledge-graph/route.js",
+  "/api/read-notes/route": "app/api/read-notes/route.js",
+  "/api/read-book-details/route": "app/api/read-book-details/route.js"
+}

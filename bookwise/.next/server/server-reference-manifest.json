@@ -1,0 +1,126 @@
+{
+  "node": {
+    "055eb1855977bbac172a756db65b8fd73aee7af5": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "9b7b843b2786e52a5759379e9ec9a3c46daf8fb2": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "9fd88f1a31b844e3bfb013daa7272e1fb1fcc4c8": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "afc01bdebca190ff6a443c909afff9e8494368f7": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "c8581dd151f5f79851469199828c8b48f0f80864": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "ca8883fa9a490f96396285c2d30d24eda7e07d5d": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "d177f8a59735eff73d7113ffc0e4741a84455d4a": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "e2512167556f045c29eab7c1268fddbedc48ab73": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "e581af4ae3bbea709d345da21ad209840dbbb4c9": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    },
+    "e6c7ca0f764a426c9cb944130cf5ab422be70666": {
+      "workers": {
+        "app/dashboard/books/[book_id]/visuals/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/books/[book_id]/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fmukuflash%2FDocuments%2FProjects%2FJS%2Fbookwise_ai%2Fbookwise%2Flib%2Foperations%2FapiCalls.ts%22%2C%5B%22readBookDetails%22%2C%22getUser%22%2C%22readPages%22%2C%22createPage%22%2C%22createBook%22%2C%22readBooks%22%2C%22createNote%22%2C%22createUser%22%2C%22readNotes%22%2C%22createKnowledgeGraph%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/dashboard/books/[book_id]/visuals/page": "action-browser",
+        "app/dashboard/books/[book_id]/page": "rsc",
+        "app/dashboard/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "x7ogkvGnnELnRtbzs5UGqKVDGpE1yNVO7Wg43kwrWJc="
+}
