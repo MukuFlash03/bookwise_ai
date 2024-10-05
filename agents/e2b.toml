@@ -1,0 +1,15 @@
+# This is a config for E2B sandbox template.
+# You can use 'template_id' (veuddmxx10bn7cma93ds) or 'template_name (mukul-test-1) from this config to spawn a sandbox:
+
+# Python SDK
+# from e2b import Sandbox
+# sandbox = Sandbox(template='mukul-test-1')
+
+# JS SDK
+# import { Sandbox } from 'e2b'
+# const sandbox = await Sandbox.create({ template: 'mukul-test-1' })
+
+team_id = "51ab042f-2389-487f-a6de-5b1535a24a28"
+dockerfile = "e2b.Dockerfile"
+template_name = "mukul-test-1"
+template_id = "veuddmxx10bn7cma93ds"
