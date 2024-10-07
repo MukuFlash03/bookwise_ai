@@ -14,6 +14,38 @@ The process is divided into two steps:
 - Have a working smart phone app.
 - Integration with Smart Glasses so users can directly take pictures with glasses.
 
+--------
+
+Screenshots
+
+Use Case from my own notes <br><br>
+![IMG_3605](https://github.com/user-attachments/assets/24d38229-4870-4c66-bb58-991e17d10ac3)
+
+<br><br>
+
+Page Upload <br><br>
+<img width="386" alt="Screenshot 2024-10-06 at 7 14 54 PM" src="https://github.com/user-attachments/assets/435ec39d-cbdd-430d-b7fb-3814e4db276d">
+
+<br><br>
+
+Generated Notes <br><br>
+
+<img width="1440" alt="Screenshot 2024-10-06 at 7 15 16 PM" src="https://github.com/user-attachments/assets/878cdf40-6569-4928-bf4e-874d41b0233b">
+
+
+<br><br>
+
+Knowledge Graph <br><br>
+
+<img width="820" alt="Screenshot 2024-10-06 at 7 12 50 PM" src="https://github.com/user-attachments/assets/f6c69f05-0a48-455c-82e2-00874f23dafc">
+
+<br><br>
+
+Word Cloud <br><br>
+![word_cloud](https://github.com/user-attachments/assets/28f8f726-a9c2-4ced-832e-1ba15342c8d2)
+
+<br><br>
+
 ----------
 
 ### Notes
