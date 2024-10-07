@@ -27,6 +27,9 @@ export async function POST(request: Request) {
 
     const book_user_id = BookUserData[0].id;
 
+    console.log("Before asking LLM to generate notes");
+
+
     const notesPromises = page_ids.map(async (page_id: string) => {
       // const noteResponse = await analyzeNotes({ user_id: user_id, book_id: book_id, page_id: page_id });
       const noteResponse = await generateNotes({ user_id: user_id, book_id: book_id, page_id: page_id });

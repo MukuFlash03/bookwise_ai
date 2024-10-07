@@ -71,7 +71,8 @@ export default function Visualize({ params }: BookProps) {
           Generate Knowledge Graph
         </Button> */}
         <Button type="submit" onClick={handleSubmit} disabled={isGenerating}>
-          {isGenerating ? 'Generating...' : 'Generate Knowledge Graph'}
+          {isGenerating ? 'Generating...' : 'Generate Word Cloud'}
+          {/* {isGenerating ? 'Generating...' : 'Generate Knowledge Graph'} */}
         </Button>
         {/* <Button asChild>
           <Link href={`http://localhost:3000/generated_kg_html/${graphFilename}`} className="hover:underline" target="_blank" rel="noopener noreferrer">

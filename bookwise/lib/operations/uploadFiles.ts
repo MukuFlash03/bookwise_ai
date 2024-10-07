@@ -83,7 +83,8 @@ export async function copyTextToAgents(textFile: NoteTextFile) {
 }
 
 export async function generateKGFromText() {
-  const response = await fetch(`http://127.0.0.1:8000/generate-knowledge-graph`, {
+  // const response = await fetch(`http://127.0.0.1:8000/generate-knowledge-graph`, {
+  const response = await fetch(`http://127.0.0.1:8000/e2b-generate-kg`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

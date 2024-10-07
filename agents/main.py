@@ -15,20 +15,37 @@ import os
 from e2b import Sandbox
 from e2b_code_interpreter import CodeInterpreter
 
-# sandbox = Sandbox(
+import openai
+import json
+import sys
+import os
+from dotenv import load_dotenv
+from e2b_ci.fireworks_eg import USER_PROMPT, chat
+import base64
+
+load_dotenv()
+
+FIREWORKS_API_KEY = os.getenv("FIREWORKS_API_KEY")
+E2B_API_KEY = os.getenv("E2B_API_KEY")
+
+# sandbox = CodeInterpreter(
+# # # sandbox = Sandbox(
 #     template="mukul-test-1",
 #     metadata={"user_id": "51ab042f-2389-487f-a6de-5b1535a24a28"},  
 # )
 # sandbox.keep_alive(60 * 60)  
 
-sandboxID = "ibluoqfy8639dqcey40cz-b0b684e9"
 
-running_sandboxes = Sandbox.list()
+sandboxID = "i55xlwdn5614dbsn6jpp2-b0b684e9"
+
+# running_sandboxes = Sandbox.list()
+running_sandboxes = CodeInterpreter.list()
 
 # Find the sandbox by metadata
 for running_sandbox in running_sandboxes:
     if running_sandbox.metadata.get("user_id", "") == '51ab042f-2389-487f-a6de-5b1535a24a28':
-        sandbox = Sandbox.reconnect(running_sandbox.sandbox_id)
+        # sandbox = Sandbox.reconnect(running_sandbox.sandbox_id)
+        sandbox = CodeInterpreter.reconnect(running_sandbox.sandbox_id)
         sandbox.cwd = "/app"  
         break
 else:
@@ -242,7 +259,72 @@ async def e2b_upload_text_file(file_info: dict):
       # Handle exceptions or errors during translation
       raise HTTPException(status_code=500, detail=str(e))
   
-  
+
+@app.get("/e2b-generate-kg")
+async def e2b_generate_kg():
+  try:
+    print("E2B: Generating KB from text file..before async")
+
+    with CodeInterpreter(api_key=E2B_API_KEY) as code_interpreter:
+      execution_output = chat(
+        code_interpreter,
+        USER_PROMPT,
+      )
+
+      if execution_output == None:
+        print("No output from the code interpreter. Did the LLM generate any code?")
+        sys.exit(1)
+
+      # Access stdout
+      print("Stdout:", execution_output.logs.stdout)
+      # Access stderr
+      print("Stderr:", execution_output.logs.stderr)
+
+      # Access any runtime errors
+      print("AI-generated Python runtime error:", execution_output.error)
+
+      # Access any results of code execution - charts, interpreter last line, images, etc.
+      print("Results:", execution_output.results)
+      if len(execution_output.results) == 0:
+        print("No results from the code interpreter...")
+        sys.exit(0)
+
+      first_result = execution_output.results[0]
+      print(first_result)
+
+      # If we received a chart in PNG form, we can visualize it
+      print("Before if first_result")
+
+      if first_result.png:
+        # Decode the base64 encoded PNG data
+        print("Decoding image data...")
+        png_data = base64.b64decode(first_result.png)
+
+        # Generate a unique filename for the PNG
+        filename = f"word_cloud.png"
+        
+        print("Saving to file...")
+        # Save the decoded PNG data to a file
+        with open(filename, "wb") as f:
+            f.write(png_data)
+
+        print(f"Saved chart to {filename}")
+      
+      # sandbox.close()
+      # return {"message": f"File copied successfully to E2B sandbox at {remote_path}"}
+    
+    copiedFilesResponse = {"message": f"Generating KG successfully to E2B sandbox"}
+    # copiedFilesResponse = await asyncio.create_task(e2b_upload_file(file_info, sandbox))
+    print("E2B: Generating KG text file")
+    print(copiedFilesResponse)
+    
+    # sandbox.close()
+
+    return copiedFilesResponse
+  except Exception as e:
+      # Handle exceptions or errors during translation
+      raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/e2b-download-file")
 async def e2b_download_html_file(kgInput: KGInput):
