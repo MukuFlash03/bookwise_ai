@@ -26,3 +26,10 @@ export type KGInput = {
   page_ids?: string[],
   chapter_ids?: string[],
 }
+
+export type WCInput = {
+  user_id: string,
+  book_id: string,
+  title: string,
+  author: string,
+}

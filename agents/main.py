@@ -9,18 +9,19 @@ import asyncio
 from helpers.helpers import copy_text_file2, copy_html_file2
 from knowledge_graph.test import test_kg
 from e2b_ci.quickstart import e2b_sample
-from custom_types import KGInput
+from custom_types import KGInput, WCInput
 import sys
 import os
 from e2b import Sandbox
 from e2b_code_interpreter import CodeInterpreter
+from db.operations import get_db_books, get_db_notes, get_db_pages
 
 import openai
 import json
 import sys
 import os
 from dotenv import load_dotenv
-from e2b_ci.fireworks_eg import USER_PROMPT, chat
+from e2b_ci.fireworks_eg import chat
 import base64
 
 load_dotenv()
@@ -260,10 +261,33 @@ async def e2b_upload_text_file(file_info: dict):
       raise HTTPException(status_code=500, detail=str(e))
   
 
-@app.get("/e2b-generate-kg")
-async def e2b_generate_kg():
+@app.post("/e2b-generate-wc")
+async def e2b_generate_wc(wcInput: WCInput):
+  user_id = wcInput.user_id
+  book_id = wcInput.book_id
+  title = wcInput.title
+  author = wcInput.author
+
+  notes = get_db_notes(user_id, book_id)
+  if notes is None:
+    raise HTTPException(status_code=404, detail="Notes data not found")
+    
+  all_page_content = ""
+
+  for note in notes.data:
+      page_content = note['page_content_summary']
+      all_page_content += " ".join(page_content) + " "
+  all_page_content = all_page_content.strip()
+
+  USER_PROMPT = f"""
+    Plot the concepts in the text after summarizing them so it is easy to understand and visualize. Use these notes: 
+    {title} by {author}
+
+  """
+    # {all_page_content}
+
   try:
-    print("E2B: Generating KB from text file..before async")
+    print("E2B: Generating WC from text file..before async")
 
     with CodeInterpreter(api_key=E2B_API_KEY) as code_interpreter:
       execution_output = chat(
@@ -313,9 +337,9 @@ async def e2b_generate_kg():
       # sandbox.close()
       # return {"message": f"File copied successfully to E2B sandbox at {remote_path}"}
     
-    copiedFilesResponse = {"message": f"Generating KG successfully to E2B sandbox"}
+    copiedFilesResponse = {"message": f"Generating WC successfully to E2B sandbox"}
     # copiedFilesResponse = await asyncio.create_task(e2b_upload_file(file_info, sandbox))
-    print("E2B: Generating KG text file")
+    print("E2B: Generating WC text file")
     print(copiedFilesResponse)
     
     # sandbox.close()

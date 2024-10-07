@@ -92,3 +92,9 @@ class KGInput(BaseModel):
   book_ids: list[str]
   page_ids: Optional[list[str]] = None
   chapter_ids: Optional[list[str]] = None
+
+class WCInput(BaseModel):
+  user_id: str
+  book_id: str
+  title: str
+  author: str

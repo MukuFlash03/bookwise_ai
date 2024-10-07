@@ -8,7 +8,7 @@ import { NotesResponse } from '@/lib/types/notes';
 import { BookDetails } from '@/lib/types/books';
 import path from 'path';
 import { NoteTextFile } from '@/lib/types/files'
-import { KGInput } from '@/lib/types/pages_notes';
+import { KGInput, WCInput } from '@/lib/types/pages_notes';
 
 
 export async function uploadFile(data: FormData) {
@@ -82,13 +82,14 @@ export async function copyTextToAgents(textFile: NoteTextFile) {
   return response.json();
 }
 
-export async function generateKGFromText() {
+export async function generateWCFromText(wCInput: WCInput) {
   // const response = await fetch(`http://127.0.0.1:8000/generate-knowledge-graph`, {
-  const response = await fetch(`http://127.0.0.1:8000/e2b-generate-kg`, {
-    method: 'GET',
+  const response = await fetch(`http://127.0.0.1:8000/e2b-generate-wc`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(wCInput),
   });
 
   if (!response.ok) {
