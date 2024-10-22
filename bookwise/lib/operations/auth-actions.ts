@@ -95,6 +95,7 @@ export async function signInWithGoogle() {
     redirect("/error");
   }
 
+  revalidatePath("/", "layout");
   redirect(data.url);
 }
 

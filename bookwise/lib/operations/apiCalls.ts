@@ -32,7 +32,7 @@ export async function createUser(user: UserCreate) {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to create user');
+    throw new Error('Failed to create user in apiCalls');
   }
 
   return response.json();
