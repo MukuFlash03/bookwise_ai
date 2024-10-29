@@ -113,12 +113,12 @@ export default function Visualize({ params }: BookProps) {
           {/* {isGenerating ? 'Generating...' : 'Generate Knowledge Graph'} */}
         </Button>
         {/* <Button asChild>
-          <Link href={`http://localhost:3000/generated_kg_html/${graphFilename}`} className="hover:underline" target="_blank" rel="noopener noreferrer">
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/generated_kg_html/${graphFilename}`} className="hover:underline" target="_blank" rel="noopener noreferrer">
             View Knowledge Graph
           </Link>
         </Button> */}
         <Button asChild disabled={isGenerating}>
-          <Link href={`http://localhost:3000/generated_kg_html/${graphFilename}`} className="hover:underline" target="_blank" rel="noopener noreferrer">
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/generated_kg_html/${graphFilename}`} className="hover:underline" target="_blank" rel="noopener noreferrer">
             View Knowledge Graph
           </Link>
         </Button>

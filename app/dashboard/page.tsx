@@ -64,7 +64,7 @@ export default function Library() {
       <div className="flex flex-row space-x-4">
         <CreateBookDialog user_id={user.id} />
         <Button asChild>
-          <Link href={`http://localhost:3000/generated_kg_html/template.html`} className="hover:underline" target="_blank" rel="noopener noreferrer">
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/generated_kg_html/template.html`} className="hover:underline" target="_blank" rel="noopener noreferrer">
             View Knowledge Graph
           </Link>
         </Button>
