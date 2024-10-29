@@ -16,14 +16,18 @@ client = anthropic.Anthropic(
 claude3_sonnet_model = "claude-3-5-sonnet-20240620"
 
 async def analyze_notes(user_id: str, book_id: str, page_id: str):
-  logging.info("Analyzing notes...")
+  import time
+  logging.info("Starting analyze_notes")
   print("Analyzing notes...")
+  
   try:
+      start_time = time.time()
       note_generation_context = get_db_notes_context(user_id, book_id, page_id)
       logging.info("Note generation context:", note_generation_context)
       logging.info("Attempting chat completion...")
       generated_note_response = await asyncio.create_task(get_chat_completion(note_generation_context))
       logging.info("Chat completion:", generated_note_response)
+      logging.info(f"analyze_notes completed in {time.time() - start_time:.2f} seconds")
       return generated_note_response
   except Exception as e:
       logging.info(f"Error in analyze_notes: {e}")

@@ -120,17 +120,22 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
 
     console.log("Requesting URL:", url);
 
-    // For production, need to construct absolute URL
     const requestUrl = process.env.NODE_ENV === 'development'
       ? url
       : new URL(url, 'https://bookwise-ai.vercel.app').toString();
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 50000);
 
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     // const response = await fetch(`${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
     //   method: 'GET',
@@ -141,7 +146,6 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
 
     console.log("After fetching generated notes request");
     console.log("Response status:", response.status);
-
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -155,10 +159,16 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
     console.log("********************************************");
 
     return generatedNoteResponse;
-
-    // return NextResponse.json({ message: 'Note generated from page image content successfully', generatedNoteResponse });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error in generateNotes:", error);
-    throw error;
+
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Request timed out after 50 seconds');
+      }
+      throw error;
+    }
+
+    throw new Error('An unknown error occurred');
   }
 }

@@ -36,14 +36,18 @@ async def generate_notes(user_id: str, book_id: str, page_id: str):
   print(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
 
   try:
-      logging.info("Before calling analyze_notes")
-      print("Before calling analyze_notes")
-      generated_notes = await asyncio.create_task(analyze_notes(user_id, book_id, page_id))
-      logging.info("Generated notes in generate_notes:")
-      print("Generated notes in generate_notes:")
-      # print(generated_notes)
-      logging.info(f"Notes generated successfully: {generated_notes}")
-      return {"generated_notes": generated_notes}
+      async with asyncio.timeout(50): 
+        logging.info("Before calling analyze_notes")
+        print("Before calling analyze_notes")
+        generated_notes = await asyncio.create_task(analyze_notes(user_id, book_id, page_id))
+        logging.info("Generated notes in generate_notes:")
+        print("Generated notes in generate_notes:")
+        # print(generated_notes)
+        logging.info(f"Notes generated successfully: {generated_notes}")
+        return {"generated_notes": generated_notes}
+  except asyncio.TimeoutError:
+      logging.error("Note generation timed out after 50 seconds")
+      raise HTTPException(status_code=504, detail="Note generation timed out")
   except Exception as e:
       logging.error(f"Error generating notes: {str(e)}")
       import traceback

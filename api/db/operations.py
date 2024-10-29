@@ -84,7 +84,7 @@ def get_db_pages(user_id: str, book_id: str, page_id: Union[str, None] = None):
           .eq("id", page_id)\
           .eq("book_user_id", book_user_id)\
           .execute()
-      print(page)
+      # print(page)
       return page
   except Exception as e:
       print(f"Error: {e}")
