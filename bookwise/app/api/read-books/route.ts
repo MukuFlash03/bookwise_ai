@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 // import { getUser } from '@/lib/operations/apiCalls';
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
   try {
