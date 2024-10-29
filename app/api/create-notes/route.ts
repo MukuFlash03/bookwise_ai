@@ -14,9 +14,9 @@ import { PageDetailsID } from '@/lib/types/pages_notes';
 //     : 'https://bookwise-ai.vercel.app'
 // );
 
-const API_BASE_URL = process.env.NODE_ENV === 'development'
-  ? 'http://127.0.0.1:8000'
-  : '';
+// const API_BASE_URL = process.env.NODE_ENV === 'development'
+//   ? 'http://127.0.0.1:8000'
+//   : '';
 
 export async function POST(request: Request) {
   try {
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
 async function generateNotes(pageDetailsID: PageDetailsID) {
   console.log("Inside generateNotes route.ts");
   console.log("pageDetailsID: ", pageDetailsID);
-  console.log("API BASE URL: ", API_BASE_URL);
+  // console.log("API BASE URL: ", API_BASE_URL);
 
   const { user_id, book_id, page_id } = pageDetailsID;
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
@@ -112,10 +112,20 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
   // const response = await fetch(`http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
 
   try {
-    const url = `${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
+    // const url = `${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
+
+    const url = process.env.NODE_ENV === 'development'
+      ? `http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`
+      : `/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
+
     console.log("Requesting URL:", url);
 
-    const response = await fetch(url, {
+    // For production, need to construct absolute URL
+    const requestUrl = process.env.NODE_ENV === 'development'
+      ? url
+      : new URL(url, 'https://bookwise-ai.vercel.app').toString();
+
+    const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
