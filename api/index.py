@@ -30,17 +30,11 @@ app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 def hello_fast_api():
     return {"message": "Hello from FastAPI"}
 
-@app.get("/api/py/generate-notes-claude/")
+@app.get("/api/py/generate-notes-claude")
 async def generate_notes(user_id: str, book_id: str, page_id: str):
-  logging.info("Inside generate_notes, request received")
-  logging.info("user_id:", user_id)
-  logging.info("book_id:", book_id)
-  logging.info("page_id:", page_id)
+  logging.info(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  print(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
 
-  print("Inside generate_notes, request received")
-  print("user_id:", user_id)
-  print("book_id:", book_id)
-  print("page_id:", page_id)
   try:
       logging.info("Before calling analyze_notes")
       print("Before calling analyze_notes")
@@ -48,10 +42,12 @@ async def generate_notes(user_id: str, book_id: str, page_id: str):
       logging.info("Generated notes in generate_notes:")
       print("Generated notes in generate_notes:")
       # print(generated_notes)
+      logging.info(f"Notes generated successfully: {generated_notes}")
       return {"generated_notes": generated_notes}
   except Exception as e:
-      # Handle exceptions or errors during translation
-      logging.info("Error in generate_notes:", str(e))
+      logging.error(f"Error generating notes: {str(e)}")
+      import traceback
+      logging.error(f"Traceback: {traceback.format_exc()}")
       raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/py/books") 
