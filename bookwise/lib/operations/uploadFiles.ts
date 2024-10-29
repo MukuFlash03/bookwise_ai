@@ -12,6 +12,8 @@ import { KGInput, WCInput } from '@/lib/types/pages_notes';
 
 
 export async function uploadFile(data: FormData) {
+  console.log("Inside uploadFile");
+
   const file: File | null = data.get('file') as unknown as File
   if (!file) {
     throw new Error('No file uploaded')
@@ -27,8 +29,12 @@ export async function uploadFile(data: FormData) {
   const path = join(rootDir, 'lib', 'data', 'pages', file.name);
   console.log("Path:", path);
 
+  console.log("Before commented out writeFile...");
   await writeFile(path, buffer)
   console.log(`open ${path} to see the uploaded file`)
+
+  console.log("After commented out writeFile...");
+  console.log("Attempting to save to Supabase Storage...");
 
   return { filePath: path, success: true }
 }
