@@ -9,15 +9,63 @@ import { BookDetails } from '@/lib/types/books';
 import path from 'path';
 import { NoteTextFile } from '@/lib/types/files'
 import { KGInput, WCInput } from '@/lib/types/pages_notes';
-
+import { createClient } from '@/utils/supabase/server';
 
 export async function uploadFile(data: FormData) {
   console.log("Inside uploadFile");
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error('User not authenticated');
+  }
+
+  console.log("User ID:", user.id);
+  const user_id = user.id;
 
   const file: File | null = data.get('file') as unknown as File
   if (!file) {
     throw new Error('No file uploaded')
   }
+
+
+  console.log("Uploaded file name: ", file.name);
+
+  console.log("Attempting to upload file...");
+  console.log("Attempting to save to Supabase Storage...");
+
+  const book_page_image = file
+  const { data: BooksPagesBucketUploadData, error: BooksPagesBucketUploadError } = await supabase
+    .storage
+    .from('books_pages')
+    .upload(`${user_id}/${file.name}`, book_page_image, {
+      cacheControl: '3600',
+      upsert: false
+    })
+
+  console.log("After upload to Supabase Storage...Error?");
+
+  console.log("BooksPagesBucketData:", BooksPagesBucketUploadData);
+  console.log("BooksPagesBucketError:", BooksPagesBucketUploadError);
+
+  console.log("List of files in the bucket:");
+
+  const { data: BooksPagesBucketListData, error: BooksPagesBucketListError } = await supabase
+    .storage
+    .from('books_pages')
+    .list(`${user_id}`, {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: 'name', order: 'asc' },
+    })
+
+  console.log("BooksPagesBucketListData:", BooksPagesBucketListData);
+  console.log("BooksPagesBucketListError:", BooksPagesBucketListError);
+
+
 
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
@@ -34,7 +82,7 @@ export async function uploadFile(data: FormData) {
   console.log(`open ${path} to see the uploaded file`)
 
   console.log("After commented out writeFile...");
-  console.log("Attempting to save to Supabase Storage...");
+
 
   return { filePath: path, success: true }
 }
