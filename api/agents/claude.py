@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
 import anthropic
-from lib.db.operations import get_db_notes_context
-from lib.types.custom_types import NoteGenerationContext
+from db.operations import get_db_notes_context
+from api.types.custom_types import NoteGenerationContext
 import asyncio
 import logging
 logging.basicConfig(level=logging.INFO)

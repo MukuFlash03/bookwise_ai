@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+      {
+          "src": "api/index.py",
+          "use": "@vercel/python"
+      }
+  ],
+  "routes": [
+      {
+          "src": "/api/py/docs",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/openapi.json",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/helloFastApi",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/generate-notes-claude",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/books",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/notes",
+          "dest": "api/index.py"
+      },
+      {
+          "src": "/api/py/pages",
+          "dest": "api/index.py"
+      }
+  ]
+}

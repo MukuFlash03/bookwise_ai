@@ -1,25 +1,27 @@
-from typing import Dict, Any, Union, List
-from fastapi import FastAPI, BackgroundTasks, HTTPException, Request
-from lib.db.operations import get_db_books, get_db_notes, get_db_pages
-from lib.types.custom_types import KGInput, WCInput
-import asyncio
 import sys
-import os
-import json
-from dotenv import load_dotenv
-import base64
-from lib.agents.claude import analyze_notes
 from pathlib import Path
+from typing import Dict, Any, Union
+from fastapi import FastAPI, HTTPException
+import asyncio
+from dotenv import load_dotenv
 import logging
+
+# Configure logging
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-root_dir = Path(__file__).parent.parent.parent
-load_dotenv(root_dir / '.env')
+# Setup path resolution
+API_DIR = Path(__file__).parent
+ROOT_DIR = API_DIR.parent
+sys.path.append(str(API_DIR))
 
-# current_file_path = os.path.abspath(__file__)
-# parent_directory = os.path.dirname(os.path.dirname(current_file_path))
-# sys.path.append(parent_directory)
-# sys.path.append(f"{parent_directory}/bookwise")
+# Load environment variables
+load_dotenv(ROOT_DIR / '.env')
+
+# Import local modules
+from db.operations import get_db_books, get_db_notes, get_db_pages
+from agents.claude import analyze_notes
+
 
 ### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
