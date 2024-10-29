@@ -5,10 +5,19 @@ from fastapi import FastAPI, HTTPException
 import asyncio
 from dotenv import load_dotenv
 import logging
+import time  # Add this
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging to write to stderr
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    stream=sys.stderr
+)
 logger = logging.getLogger(__name__)
+
+# # Configure logging
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
 
 # Setup path resolution
 API_DIR = Path(__file__).parent
@@ -32,24 +41,30 @@ def hello_fast_api():
 
 @app.get("/api/py/generate-notes-claude")
 async def generate_notes(user_id: str, book_id: str, page_id: str):
-  logging.info(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  request_id = time.time()  # Generate a unique ID for this request
+  logger.info(f"[{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  #  logging.info(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
   print(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
 
   try:
       async with asyncio.timeout(50): 
         logging.info("Before calling analyze_notes")
         print("Before calling analyze_notes")
+        start_time = time.time()
         generated_notes = await asyncio.create_task(analyze_notes(user_id, book_id, page_id))
-        logging.info("Generated notes in generate_notes:")
+        duration = time.time() - start_time
+        logger.info(f"[{request_id}] Notes generated successfully in {duration:.2f} seconds")
         print("Generated notes in generate_notes:")
         # print(generated_notes)
         logging.info(f"Notes generated successfully: {generated_notes}")
         return {"generated_notes": generated_notes}
   except asyncio.TimeoutError:
       logging.error("Note generation timed out after 50 seconds")
+      logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
       raise HTTPException(status_code=504, detail="Note generation timed out")
   except Exception as e:
       logging.error(f"Error generating notes: {str(e)}")
+      logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
       import traceback
       logging.error(f"Traceback: {traceback.format_exc()}")
       raise HTTPException(status_code=500, detail=str(e))
