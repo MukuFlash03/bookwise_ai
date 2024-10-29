@@ -88,6 +88,10 @@ export async function POST(request: Request) {
 
 async function generateNotes(pageDetailsID: PageDetailsID) {
   console.log("Inside generateNotes route.ts");
+  console.log("pageDetailsID: ", pageDetailsID);
+  console.log("API BASE URL: ", API_BASE_URL);
+
+
 
   const { user_id, book_id, page_id } = pageDetailsID;
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
