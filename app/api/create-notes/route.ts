@@ -87,6 +87,8 @@ export async function POST(request: Request) {
 }
 
 async function generateNotes(pageDetailsID: PageDetailsID) {
+  console.log("Inside generateNotes route.ts");
+
   const { user_id, book_id, page_id } = pageDetailsID;
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
@@ -97,6 +99,10 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
       'Content-Type': 'application/json',
     },
   });
+
+  console.log("After fetching generated notes request");
+  console.log("Response status:", response.status);
+
 
   if (!response.ok) {
     throw new Error('Failed to fetch generated notes');
