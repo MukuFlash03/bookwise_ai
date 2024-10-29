@@ -4,23 +4,34 @@ import { createClient } from '@/utils/supabase/server';
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const user_id = searchParams.get('user_id');
+    // const user_id = searchParams.get('user_id');
     const book_id = searchParams.get('book_id');
 
-    if (!user_id || !book_id) {
-      return NextResponse.json({ error: 'User ID and Book ID are required' }, { status: 400 });
-    }
+    // if (!user_id || !book_id) {
+    //   return NextResponse.json({ error: 'User ID and Book ID are required' }, { status: 400 });
+    // }
+
     const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
+    }
+
+    const reader_id = user?.id;
 
     const { data: BookUserData, error: BookUserError } = await supabase
       .from('bw_books_users')
       .select()
-      .eq('user_id', user_id)
+      .eq('user_id', reader_id)
       .eq('book_id', book_id)
       ;
 
     if (!BookUserData || BookUserData.length === 0) {
-      throw new Error('No matching book user found');
+      throw new Error('No matching book user data found');
     }
 
     const book_user_id = BookUserData[0].id;

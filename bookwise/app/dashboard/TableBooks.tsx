@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import { BookDataCell } from './BookDataCell';
 import { readBooks } from '@/lib/operations/apiCalls';
-// import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 
 import {
   Table,
@@ -27,11 +28,32 @@ export function TableBooks({ user_id }: PageProps) {
   const [booksResponseData, setBooksResponseData] = useState<SelectedBooksResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  console.log("Inside TableBooks");
+  console.log("user_id:", user_id);
+
+  const supabase = createClient();
+  const router = useRouter();
+
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    // if (!user) {
+    //   router.push('/login');
+    // }
+
     const loadData = async () => {
       try {
-        const data = await readBooks(user_id);
+        // const data = await readBooks(user_id);
+        const data = await readBooks();
+        console.log("Data in TableBooks useEffect:", data);
         setBooksResponseData(data.data);
         setLoading(false);
       } catch (err) {
@@ -40,14 +62,19 @@ export function TableBooks({ user_id }: PageProps) {
       }
     };
 
+    fetchUser();
     loadData();
   }, []);
+
+  console.log("Before return in TableBooks");
+  console.log("user:", user);
 
   if (loading) return <div>Loading...</div>;
   if (!booksResponseData) return <div>No list books data available</div>;
   if (error) return <div>Error while fetching list of books response data: {error}</div>;
 
-  // console.log(booksResponseData);
+  console.log(booksResponseData);
+
 
 
   return (

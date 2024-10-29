@@ -1,8 +1,11 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from "next/navigation";
+'use client';
+
+import { createClient } from '@/utils/supabase/client';
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
-import Link from 'next/link';
 // import CustomButton from '@/components/CustomSubmitButton';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface PageProps {
   params: {
@@ -11,21 +14,33 @@ interface PageProps {
   };
 }
 
-export default async function PageView({ params }: PageProps) {
+export default function PageView({ params }: PageProps) {
+  const [user, setUser] = useState<any>(null);
+
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
-
 
   const { book_id, page_id } = params;
 
   // console.log("Book ID from params:", book_id);
   // console.log("Page ID from params:", page_id);
+
+  useEffect(() => {
+    const fetchUserAndLoadData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        return redirect('/login');
+      }
+
+      setUser(user);
+
+      // const user_id = user.id;
+    };
+
+    fetchUserAndLoadData();
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center space-y-8 p-24">

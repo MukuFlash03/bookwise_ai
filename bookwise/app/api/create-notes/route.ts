@@ -8,9 +8,19 @@ import { PageDetailsID } from '@/lib/types/pages_notes';
 
 export async function POST(request: Request) {
   try {
-    const { user_id, book_id, page_ids } = await request.json();
+    const { book_id, page_ids } = await request.json();
 
     const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const user_id = user?.id;
+
+    if (!user_id) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
 
     const { data: BookUserData, error: BookUserError } = await supabase
       .from('bw_books_users')

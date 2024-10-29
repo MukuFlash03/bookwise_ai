@@ -1,8 +1,12 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from "next/navigation";
+'use client';
+
+import { createClient } from '@/utils/supabase/client';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 // import CustomButton from '@/components/CustomSubmitButton';
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+
 
 interface NoteProps {
   params: {
@@ -11,20 +15,37 @@ interface NoteProps {
   };
 }
 
-export default async function NoteView({ params }: NoteProps) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function NoteView({ params }: NoteProps) {
 
-  if (!user) {
-    return redirect("/login");
-  }
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  const supabase = createClient();
 
   const { book_id, note_id } = params;
 
   // console.log("Book ID from params:", book_id);
   // console.log("Note ID from params:", note_id);
+
+  useEffect(() => {
+    const fetchUserAndLoadData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        return redirect('/login');
+      }
+
+      setUser(user);
+
+      // const user_id = user.id;
+    };
+
+    fetchUserAndLoadData();
+  }, []);
+
 
   return (
     <main className="flex min-h-screen flex-col items-center space-y-8 p-24">

@@ -6,6 +6,8 @@ import { SelectedBooksUsersResponse } from '@/lib/types/books_users';
 import { createKnowledgeGraph } from '@/lib/operations/apiCalls';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { redirect, useRouter } from "next/navigation";
 
 
 interface BookProps {
@@ -17,11 +19,15 @@ interface BookProps {
 export default function Visualize({ params }: BookProps) {
   const [graphFilename, setGraphFilename] = useState('template.html');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   const searchParams = useSearchParams();
   const user_id = searchParams.get('user_id') as string;
   const book_id = params.book_id;
 
+  const supabase = createClient();
+
+  /*
   useEffect(() => {
     if (isGenerating) {
       createKnowledgeGraph({ user_id, book_id })
@@ -39,6 +45,38 @@ export default function Visualize({ params }: BookProps) {
         });
     }
   }, [isGenerating, user_id, book_id]);
+  */
+
+  useEffect(() => {
+    const generateKnowledgeGraph = async () => {
+      if (!isGenerating) return;
+
+      try {
+        // First fetch the user
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          return redirect('/login');
+        }
+
+        setUser(user);
+
+        // Then create knowledge graph with user data
+        const result = await createKnowledgeGraph({ book_id });
+        console.log('Knowledge graph created successfully', result);
+
+        if (result.copyHTMLResponse.fileInfo.fileName) {
+          setGraphFilename(result.copyHTMLResponse.fileInfo.fileName);
+        }
+      } catch (error) {
+        console.error("Error creating knowledge graph:", error);
+      } finally {
+        setIsGenerating(false);
+      }
+    };
+
+    generateKnowledgeGraph();
+  }, [isGenerating, book_id]); // Removed user_id from dependencies since we're fetching it
 
   /*
   const handleSubmit = async (book_user: SelectedBooksUsersResponse) => {

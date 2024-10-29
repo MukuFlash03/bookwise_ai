@@ -3,9 +3,20 @@ import { createClient } from '@/utils/supabase/server';
 
 export async function POST(request: Request) {
   try {
-    const { user_id, title, author } = await request.json();
+    const { title, author } = await request.json();
 
     const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const user_id = user?.id;
+
+    if (!user_id) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+
     const { data, error } = await supabase
       .from('bw_books')
       .insert({ user_id, title, author })

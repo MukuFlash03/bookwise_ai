@@ -7,8 +7,10 @@ import Link from "next/link";
 
 const LoginButton = () => {
   const [user, setUser] = useState<any>(null);
+
   const router = useRouter();
   const supabase = createClient();
+
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -16,8 +18,10 @@ const LoginButton = () => {
       } = await supabase.auth.getUser();
       setUser(user);
     };
+
     fetchUser();
   }, []);
+
   if (user) {
     return (
       <Button asChild>

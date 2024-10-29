@@ -35,7 +35,7 @@ export default async function Library({ params }: PageProps) {
       </Button>
       <div>
         <PageUploadForm user_id={user.id} book_id={book_id} />
-        <TablePages user_id={user.id} book_id={book_id} />
+        <TablePages book_id={book_id} />
       </div>
 
     </main>

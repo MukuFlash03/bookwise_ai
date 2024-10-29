@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import { NoteDataCell } from './NoteDataCell';
 import { SelectedBooksUsersResponse } from '@/lib/types/books_users';
+import { createClient } from '@/utils/supabase/client';
 
 import {
   Table,
@@ -19,15 +20,26 @@ import {
 } from "@/components/ui/table"
 import { readNotes } from '@/lib/operations/apiCalls';
 
-export function TableNotes({ user_id, book_id }: SelectedBooksUsersResponse) {
+export function TableNotes({ book_id }: SelectedBooksUsersResponse) {
   const [notesResponseData, setNotesResponseData] = useState<NotesResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  const supabase = createClient();
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+
     const loadData = async () => {
       try {
-        const data = await readNotes({ user_id: user_id, book_id: book_id });
+        const data = await readNotes({ book_id: book_id });
         setNotesResponseData(data.data);
         setLoading(false);
       } catch (err) {
@@ -36,6 +48,7 @@ export function TableNotes({ user_id, book_id }: SelectedBooksUsersResponse) {
       }
     };
 
+    fetchUser();
     loadData();
   }, []);
 

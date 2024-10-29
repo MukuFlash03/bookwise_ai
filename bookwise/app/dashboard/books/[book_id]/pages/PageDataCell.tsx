@@ -3,14 +3,13 @@ import { TableCell } from "@/components/ui/table"
 import Image from 'next/image';
 import { useState } from 'react';
 
-const ImageModal = ({ src, alt, onClose }) => (
+const ImageModal = ({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) => (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
     <div className="bg-white p-2 rounded-lg">
       <Image src={src} alt={alt} width={500} height={500} style={{ objectFit: 'contain' }} />
     </div>
   </div>
 );
-
 export const PageDataCell = ({ data, field }: { data: SelectedPagesResponse; field: keyof SelectedPagesResponse }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const value = data[field];

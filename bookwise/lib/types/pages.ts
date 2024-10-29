@@ -18,7 +18,6 @@ export type PageDetails = {
 }
 
 export type MultiplePageIds = {
-  user_id: string;
   book_id: string;
   page_ids: string[];
 };

@@ -5,5 +5,5 @@ export type BooksUsersResponse = {
 };
 
 export type SelectedBooksUsersResponse = Pick<BooksUsersResponse,
-  'user_id' | 'book_id'
+  'book_id'
 >;

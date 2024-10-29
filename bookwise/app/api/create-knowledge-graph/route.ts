@@ -7,17 +7,27 @@ import { KGInput, WCInput } from '@/lib/types/pages_notes';
 
 export async function POST(request: Request) {
   try {
-    const { user_id, book_id } = await request.json();
+    const { book_id } = await request.json();
 
     const supabase = createClient();
 
-    const notesData = await readNotes({ user_id, book_id });
+    const notesData = await readNotes({ book_id });
 
-    const bookDetailsData = await readBookDetails({ user_id, book_id });
+    const bookDetailsData = await readBookDetails({ book_id });
     const bookDetails: BookDetails = {
       title: bookDetailsData.data[0].title,
       author: bookDetailsData.data[0].author
     }
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    const user_id = user.id;
 
     const kgInput: KGInput = {
       user_id,
@@ -48,4 +58,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to create knowledge graph' }, { status: 500 });
   }
 }
-

@@ -7,6 +7,7 @@ import { PageDataCell } from './PageDataCell';
 import { readPages, createNote } from '@/lib/operations/apiCalls';
 import React, { useState, useEffect, useTransition } from 'react';
 import CustomSubmitButton from '@/components/CustomSubmitButton'
+import { createClient } from "@/utils/supabase/client";
 import { SelectedBooksUsersResponse } from '@/lib/types/books_users';
 
 import {
@@ -20,18 +21,28 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export function TablePages({ user_id, book_id }: SelectedBooksUsersResponse) {
+export function TablePages({ book_id }: SelectedBooksUsersResponse) {
   const [pagesResponseData, setPagesResponseData] = useState<SelectedPagesResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition()
   const [selectedPageIds, setSelectedPageIds] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  const supabase = createClient();
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
     const loadData = async () => {
       try {
-        const data = await readPages({ user_id: user_id, book_id: book_id });
+        const data = await readPages({ book_id: book_id });
         setPagesResponseData(data.data);
         setLoading(false);
         setSelectAll(false);
@@ -42,6 +53,7 @@ export function TablePages({ user_id, book_id }: SelectedBooksUsersResponse) {
       }
     };
 
+    fetchUser();
     loadData();
   }, []);
 
@@ -58,7 +70,7 @@ export function TablePages({ user_id, book_id }: SelectedBooksUsersResponse) {
       try {
         console.log("Generating notes for selected pages:", selectedPageIds);
         await new Promise(resolve => setTimeout(resolve, 1500)); // Simulating API call
-        const generateNoteResponse = await createNote({ user_id: user_id, book_id: book_id, page_ids: selectedPageIds });
+        const generateNoteResponse = await createNote({ book_id: book_id, page_ids: selectedPageIds });
 
         // console.log(`${filePath}}`);
       } catch (error) {

@@ -17,6 +17,10 @@ export async function GET(request: NextRequest) {
 
     const { user } = data;
 
+    // console.log("Inside if code before if user");
+    // console.log('User:', user);
+
+
     if (user) {
       try {
         // First check if user exists
@@ -31,14 +35,40 @@ export async function GET(request: NextRequest) {
           throw fetchError;
         }
 
-        // Only create user if they don't exist
+        // console.log("About to create user in callback route");
+        // console.log("Existing user:", existingUser);
+        // console.log("***********************\n\n");
+        // console.log("Retrieved user via code exchange:", user);
+
         if (!existingUser) {
-          await createUser({
-            user_id: user.id,
-            email: user.email ?? 'no-user@email.com',
-            name: user.user_metadata.full_name || user.email || 'Unknown User',
-          });
+          const { data: insertUserData, error: insertUserError } = await supabase
+            .from('bw_users')
+            .insert({
+              user_id: user.id,
+              email: user.email ?? 'no-user@email.com',
+              name: user.user_metadata.full_name || user.email || 'Unknown User',
+            });
+
+          if (insertUserError) {
+            console.error('Error creating user:', insertUserError)
+          }
         }
+
+        // Only create user if they don't exist
+        // if (!existingUser) {
+        //   // await createUserGoogle({
+        //   await createUser({
+        //     user_id: user.id,
+        //     email: user.email ?? 'no-user@email.com',
+        //     name: user.user_metadata.full_name || user.email || 'Unknown User',
+        //     // code: code,
+        //   });
+        // }
+
+        // console.log("Making call to create-user route from callback route");
+        // await createUserGoogle({
+        //   code: code,
+        // });
 
         return NextResponse.redirect(new URL('/', request.url));
       } catch (error) {
