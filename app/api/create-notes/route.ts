@@ -6,7 +6,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { SelectedNotesResponse } from '@/lib/types/notes';
 import { PageDetailsID } from '@/lib/types/pages_notes';
 
-const API_BASE_URL = process.env.API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
 
 export async function POST(request: Request) {
   try {
@@ -96,6 +96,7 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
   // const response = await fetch(`http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
   const response = await fetch(`${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
+    // const response = await fetch(`/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

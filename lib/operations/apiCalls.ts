@@ -85,7 +85,7 @@ export async function createNote(multiPages: MultiplePageIds) {
     throw new Error('Failed to create note');
   }
 
-  console.log("After esponse from createNote:");
+  console.log("After response from createNote:");
 
 
   return response.json();
