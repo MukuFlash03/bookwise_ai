@@ -4,6 +4,8 @@ import anthropic
 from lib.db.operations import get_db_notes_context
 from lib.types.custom_types import NoteGenerationContext
 import asyncio
+import logging
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 
@@ -14,27 +16,28 @@ client = anthropic.Anthropic(
 claude3_sonnet_model = "claude-3-5-sonnet-20240620"
 
 async def analyze_notes(user_id: str, book_id: str, page_id: str):
+  logging.info("Analyzing notes...")
   print("Analyzing notes...")
   try:
       note_generation_context = get_db_notes_context(user_id, book_id, page_id)
-      print("Note generation context:", note_generation_context)
-      print("Attempting chat completion...")
+      logging.info("Note generation context:", note_generation_context)
+      logging.info("Attempting chat completion...")
       generated_note_response = await asyncio.create_task(get_chat_completion(note_generation_context))
-      print("Chat completion:", generated_note_response)
+      logging.info("Chat completion:", generated_note_response)
       return generated_note_response
   except Exception as e:
-      print(f"Error in analyze_notes: {e}")
+      logging.info(f"Error in analyze_notes: {e}")
       return None
   
 async def get_chat_completion(note_generation_context: NoteGenerationContext):
   try:
-      print("Getting chat completion...")
+      logging.info("Getting chat completion...")
 
       base64_image = note_generation_context["image_base64"]
       system_prompt = get_system_prompt(note_generation_context)
       user_prompt = get_user_prompt(note_generation_context)
     
-      print("About to define tools...")
+      logging.info("About to define tools...")
 
       tools = get_tools()
 
