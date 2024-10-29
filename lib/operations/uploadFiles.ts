@@ -11,7 +11,14 @@ import { NoteTextFile } from '@/lib/types/files'
 import { KGInput, WCInput } from '@/lib/types/pages_notes';
 import { createClient } from '@/utils/supabase/server';
 
-export async function uploadFile(data: FormData) {
+// export async function uploadFile(data: FormData) {
+export async function uploadFile({
+  book_id,
+  formData
+}: {
+  book_id: string,
+  formData: FormData
+}) {
   console.log("Inside uploadFile");
 
   const supabase = createClient();
@@ -26,22 +33,21 @@ export async function uploadFile(data: FormData) {
   console.log("User ID:", user.id);
   const user_id = user.id;
 
-  const file: File | null = data.get('file') as unknown as File
+  const file: File | null = formData.get('file') as unknown as File
   if (!file) {
     throw new Error('No file uploaded')
   }
 
-
   console.log("Uploaded file name: ", file.name);
 
-  console.log("Attempting to upload file...");
+  console.log("Attempting to upload file...For book ID:", book_id);
   console.log("Attempting to save to Supabase Storage...");
 
   const book_page_image = file
   const { data: BooksPagesBucketUploadData, error: BooksPagesBucketUploadError } = await supabase
     .storage
     .from('books_pages')
-    .upload(`${user_id}/${file.name}`, book_page_image, {
+    .upload(`${user_id}/${book_id}/${file.name}`, book_page_image, {
       cacheControl: '3600',
       upsert: false
     })
@@ -67,29 +73,69 @@ export async function uploadFile(data: FormData) {
 
 
 
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
+  // const bytes = await file.arrayBuffer()
+  // const buffer = Buffer.from(bytes)
   console.log("Filename: ", file.name);
 
 
-  const rootDir = process.cwd();
+  // const rootDir = process.cwd();
   // const path = join(rootDir, 'src', 'lib', 'data', 'pages', file.name);
-  const path = join(rootDir, 'lib', 'data', 'pages', file.name);
-  console.log("Path:", path);
+  // const path = join(rootDir, 'lib', 'data', 'pages', file.name);
+  // console.log("Path:", path);
 
-  console.log("Before commented out writeFile...");
-  await writeFile(path, buffer)
-  console.log(`open ${path} to see the uploaded file`)
+  // console.log("Before commented out writeFile...");
+  // await writeFile(path, buffer)
+  // console.log(`open ${path} to see the uploaded file`)
 
   console.log("After commented out writeFile...");
 
 
-  return { filePath: path, success: true }
+  // return { filePath: path, success: true }
+  return BooksPagesBucketUploadData;
 }
 
-export async function convertToBase64(filePath: string) {
-  const fileBuffer = await readFile(filePath);
-  return Buffer.from(fileBuffer).toString('base64');
+export async function convertToBase64({
+  // book_id,
+  filePath,
+}: {
+  // book_id: string,
+  filePath: string,
+}) {
+  // const fileBuffer = await readFile(filePath);
+  // return Buffer.from(fileBuffer).toString('base64');
+
+  console.log("Inside convertToBase64...");
+
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error('User not authenticated');
+  }
+
+  console.log("User ID:", user.id);
+  const user_id = user.id;
+
+  const { data: BooksPagesBucketDownloadData, error: BooksPagesBucketDownloadError } = await supabase
+    .storage
+    .from('books_pages')
+    .download(filePath)
+
+  console.log("BooksPagesBucketDownloadData:", BooksPagesBucketDownloadData);
+  console.log("BooksPagesBucketDownloadError:", BooksPagesBucketDownloadError);
+
+  if (!BooksPagesBucketDownloadData) {
+    throw new Error('Failed to download file');
+  }
+
+  const buffer = await BooksPagesBucketDownloadData.arrayBuffer();
+  const base64String = Buffer.from(buffer).toString('base64');
+
+  return base64String;
+
 };
 
 export async function getHtmlContent() {

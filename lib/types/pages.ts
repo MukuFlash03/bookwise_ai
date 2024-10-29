@@ -21,3 +21,9 @@ export type MultiplePageIds = {
   book_id: string;
   page_ids: string[];
 };
+
+export type PageUpload = {
+  path: string,
+  id: string,
+  fullPath: string,
+}

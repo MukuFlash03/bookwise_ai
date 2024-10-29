@@ -5,7 +5,7 @@ import { uploadFile, convertToBase64 } from '@/lib/operations/uploadFiles'
 import CustomSubmitButton from '@/components/CustomSubmitButton'
 import React from 'react'
 import { createPage } from '@/lib/operations/apiCalls';
-import { PageDetails } from '@/lib/types/pages'
+import { PageDetails, PageUpload } from '@/lib/types/pages'
 
 interface PageUploadFormProps {
   user_id: string;
@@ -20,8 +20,31 @@ export function PageUploadForm({ user_id, book_id }: PageUploadFormProps) {
     const formData = new FormData(event.currentTarget)
     startTransition(async () => {
       try {
-        const { filePath } = await uploadFile(formData)
-        const image_base64 = await convertToBase64(filePath);
+        const book_page_file = {
+          book_id: book_id,
+          formData: formData,
+        }
+        // const { filePath } = await uploadFile(book_page_file)
+        // const image_base64 = await convertToBase64(filePath);
+
+        console.log("Calling uploadFile...");
+        const BooksPagesBucketData = await uploadFile(book_page_file)
+        console.log("Back from uploadFile...");
+        console.log("BooksPagesBucketData:", BooksPagesBucketData);
+
+        if (!BooksPagesBucketData) {
+          throw new Error('Failed to upload file')
+        }
+
+        const book_page_path = {
+          // book_id: book_id,
+          filePath: BooksPagesBucketData.path,
+        }
+
+        console.log("Path before convertToBase64:", BooksPagesBucketData.path);
+
+        const image_base64 = await convertToBase64(book_page_path);
+
         const page: PageDetails = {
           user_id: user_id,
           book_id: book_id,
@@ -29,7 +52,6 @@ export function PageUploadForm({ user_id, book_id }: PageUploadFormProps) {
         };
         const pageData = await createPage(page);
 
-        // console.log(`${filePath}}`);
       } catch (error) {
         console.error('Upload image page failed:', error)
       }
