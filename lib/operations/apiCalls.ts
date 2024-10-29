@@ -71,6 +71,7 @@ export async function createPage(page: PageDetails) {
 }
 
 export async function createNote(multiPages: MultiplePageIds) {
+  console.log("Creating note for pages in createNote:", multiPages);
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/create-notes`, {
     method: 'POST',
     headers: {
@@ -80,8 +81,12 @@ export async function createNote(multiPages: MultiplePageIds) {
   });
 
   if (!response.ok) {
+    console.log("Error creating note:");
     throw new Error('Failed to create note');
   }
+
+  console.log("After esponse from createNote:");
+
 
   return response.json();
 }
