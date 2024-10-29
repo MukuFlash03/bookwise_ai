@@ -50,7 +50,7 @@ Word Cloud <br><br>
 
 ### Notes
 
-[Readwise]([url](https://readwise.io/))
+[Readwise](https://readwise.io/)
 - Found a similar product while building this. <br>
 - But this doesn't automatically fetch handwritten notes, markings from physical books.
 
@@ -73,7 +73,7 @@ LLMs: Claude 3.5 Sonnet <br>
 ---------
 
 ### Knowledge Graph
-- Used the open source code from this [repository]([url](https://github.com/rahulnyk/knowledge_graph/)).
+- Used the open source code from this [repository](https://github.com/rahulnyk/knowledge_graph/).
 - Currently pre-generated graphs seen since Jupyter Notebook takes time to run and is configured to run locally.
 
 ### Word Cloud
