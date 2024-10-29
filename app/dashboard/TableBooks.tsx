@@ -73,9 +73,8 @@ export function TableBooks({ user_id }: PageProps) {
   if (!booksResponseData) return <div>No list books data available</div>;
   if (error) return <div>Error while fetching list of books response data: {error}</div>;
 
+  console.log("Logging booksResponseData in TableBooks:");
   console.log(booksResponseData);
-
-
 
   return (
 

@@ -28,7 +28,12 @@ def hello_fast_api():
 
 @app.get("/api/py/generate-notes-claude/")
 async def generate_notes(user_id: str, book_id: str, page_id: str):
+  print("Inside generate_notes, request received")
+  print("user_id:", user_id)
+  print("book_id:", book_id)
+  print("page_id:", page_id)
   try:
+      print("Before calling analyze_notes")
       generated_notes = await asyncio.create_task(analyze_notes(user_id, book_id, page_id))
       print("Generated notes in generate_notes:")
       # print(generated_notes)
