@@ -7,20 +7,12 @@ import asyncio
 import logging
 import sys
 
-# Configure logging to write to stderr with immediate flush
 logging.basicConfig(
-    stream=sys.stderr,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    force=True
+    stream=sys.stderr
 )
 logger = logging.getLogger(__name__)
-
-# Add a stream handler that flushes immediately
-handler = logging.StreamHandler(sys.stderr)
-handler.flush = sys.stderr.flush
-logger.addHandler(handler)
-
 
 load_dotenv()
 
