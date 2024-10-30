@@ -41,29 +41,53 @@ def hello_fast_api():
 
 @app.get("/api/py/generate-notes-claude")
 async def generate_notes(user_id: str, book_id: str, page_id: str):
-  request_id = time.time()  # Generate a unique ID for this request
-  logger.info(f"[{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  # request_id = time.time()  # Generate a unique ID for this request
+  # logger.info(f"[{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
   #  logging.info(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
-  print(f"Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  print(f"Print: Generate notes called with user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+
+  request_id = time.time()
+  logger.info(f"[{request_id}] === START REQUEST ===")
+  logger.info(f"[{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+  print(f"Print: [{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
+
 
   try:
       async with asyncio.timeout(50): 
         logging.info("Before calling analyze_notes")
         print("Before calling analyze_notes")
+        
+        logger.info(f"[{request_id}] Starting analyze_notes")
         start_time = time.time()
+
         generated_notes = await asyncio.create_task(analyze_notes(user_id, book_id, page_id))
+
         duration = time.time() - start_time
         logger.info(f"[{request_id}] Notes generated successfully in {duration:.2f} seconds")
-        print("Generated notes in generate_notes:")
-        # print(generated_notes)
-        logging.info(f"Notes generated successfully: {generated_notes}")
-        return {"generated_notes": generated_notes}
+        
+        
+        logger.info(f"[{request_id}] Sending response")
+        response = {"generated_notes": generated_notes}
+        logger.info(f"[{request_id}] === END REQUEST ===")
+        
+        return response
+      
+        # duration = time.time() - start_time
+        # logger.info(f"[{request_id}] Notes generated successfully in {duration:.2f} seconds")
+        # print("Generated notes in generate_notes:")
+        # # print(generated_notes)
+        # logging.info(f"Notes generated successfully: {generated_notes}")
+        # return {"generated_notes": generated_notes}
+
   except asyncio.TimeoutError:
       logging.error("Note generation timed out after 50 seconds")
+      logger.error(f"[{request_id}] Timeout after 50 seconds")
       logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
       raise HTTPException(status_code=504, detail="Note generation timed out")
   except Exception as e:
       logging.error(f"Error generating notes: {str(e)}")
+      logger.error(f"[{request_id}] Error: {str(e)}")
+      logger.error(f"[{request_id}] Traceback: {traceback.format_exc()}")
       logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
       import traceback
       logging.error(f"Traceback: {traceback.format_exc()}")
