@@ -57,6 +57,7 @@ export async function POST(request: Request) {
 
     console.log("Starting note generation for pages:", page_ids);
 
+    /*
     const notesPromises = page_ids.map(async (page_id: string) => {
       // const noteResponse = await analyzeNotes({ user_id: user_id, book_id: book_id, page_id: page_id });
       console.log(`Processing page ${page_id}`);
@@ -98,6 +99,51 @@ export async function POST(request: Request) {
     // const createdNotes = "Hello";
 
     return NextResponse.json({ message: 'Notes created successfully', createdNotes });
+    */
+
+    const createdNotes = [];
+    for (const page_id of page_ids) {
+      console.log(`Processing page ${page_id}`);
+      try {
+        const noteResponse = await generateNotes({ user_id, book_id, page_id });
+        console.log(`Note response for page ${page_id}:`, noteResponse);
+
+        // Process the note response and add to database
+        const noteToInsert = {
+          book_user_id: book_user_id,
+          note_title: noteResponse.generated_notes.note_title,
+          page_content_summary: noteResponse.generated_notes.page_content_summary,
+          user_notes_summary: noteResponse.generated_notes.user_notes_summary,
+          comparison_analysis: noteResponse.generated_notes.comparison_analysis,
+          match_percentage: noteResponse.generated_notes.match_percentage,
+        };
+
+        // Insert note and create association
+        const { data, error } = await supabase
+          .from('bw_notes')
+          .insert(noteToInsert)
+          .select();
+
+        if (error) throw error;
+
+        const note_id = data[0].id;
+
+        await supabase
+          .from('bw_pages_notes')
+          .insert({ page_id, note_id });
+
+        createdNotes.push(data[0]);
+      } catch (error) {
+        console.error(`Error processing page ${page_id}:`, error);
+        // Continue with other pages even if one fails
+      }
+    }
+
+    return NextResponse.json({
+      message: 'Notes created successfully',
+      createdNotes
+    });
+
   } catch (error) {
     console.error("Detailed error in POST handler:", error);
     // return NextResponse.json({ error: 'Failed to create notes' }, { status: 500 });
@@ -112,7 +158,7 @@ export async function POST(request: Request) {
 
 async function generateNotes(pageDetailsID: PageDetailsID) {
   const MAX_RETRIES = 2;
-  const INITIAL_TIMEOUT = 30000;
+  const INITIAL_TIMEOUT = 25000;
 
   console.log("Inside generateNotes route.ts");
   console.log("pageDetailsID: ", pageDetailsID);
@@ -135,9 +181,16 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
 
       console.log("Requesting URL:", url);
 
+      // const requestUrl = process.env.NODE_ENV === 'development'
+      //   ? url
+      //   : new URL(url, 'https://bookwise-ai.vercel.app').toString();
+
+
       const requestUrl = process.env.NODE_ENV === 'development'
-        ? url
-        : new URL(url, 'https://bookwise-ai.vercel.app').toString();
+        ? `http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${pageDetailsID.user_id}&book_id=${pageDetailsID.book_id}&page_id=${pageDetailsID.page_id}`
+        : new URL(`/api/py/generate-notes-claude?user_id=${pageDetailsID.user_id}&book_id=${pageDetailsID.book_id}&page_id=${pageDetailsID.page_id}`,
+          'https://bookwise-ai.vercel.app').toString();
+
 
       console.log(`[Attempt ${attempt + 1}] Requesting URL:`, requestUrl);
 

@@ -7,17 +7,20 @@ from dotenv import load_dotenv
 import logging
 import time  # Add this
 
-# Configure logging to write to stderr
+# Configure logging to write to stderr with immediate flush
 logging.basicConfig(
+    stream=sys.stderr,
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    stream=sys.stderr
+    force=True
 )
 logger = logging.getLogger(__name__)
 
-# # Configure logging
-# logging.basicConfig(level=logging.INFO)
-# logger = logging.getLogger(__name__)
+# Add a stream handler that flushes immediately
+handler = logging.StreamHandler(sys.stderr)
+handler.flush = sys.stderr.flush
+logger.addHandler(handler)
+
 
 # Setup path resolution
 API_DIR = Path(__file__).parent
@@ -48,12 +51,17 @@ async def generate_notes(user_id: str, book_id: str, page_id: str):
 
   request_id = time.time()
   logger.info(f"[{request_id}] === START REQUEST ===")
+  sys.stderr.flush()
+  
   logger.info(f"[{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
   print(f"Print: [{request_id}] Generate notes started - user_id: {user_id}, book_id: {book_id}, page_id: {page_id}")
 
 
   try:
-      async with asyncio.timeout(50): 
+      async with asyncio.timeout(30):  # Reduced timeout
+        logger.info(f"[{request_id}] Starting analyze_notes")
+        sys.stderr.flush()
+
         logging.info("Before calling analyze_notes")
         print("Before calling analyze_notes")
         
@@ -64,11 +72,13 @@ async def generate_notes(user_id: str, book_id: str, page_id: str):
 
         duration = time.time() - start_time
         logger.info(f"[{request_id}] Notes generated successfully in {duration:.2f} seconds")
+        sys.stderr.flush()
         
         
         logger.info(f"[{request_id}] Sending response")
         response = {"generated_notes": generated_notes}
         logger.info(f"[{request_id}] === END REQUEST ===")
+        sys.stderr.flush()
         
         return response
       
@@ -83,14 +93,17 @@ async def generate_notes(user_id: str, book_id: str, page_id: str):
       logging.error("Note generation timed out after 50 seconds")
       logger.error(f"[{request_id}] Timeout after 50 seconds")
       logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
+      sys.stderr.flush()
       raise HTTPException(status_code=504, detail="Note generation timed out")
   except Exception as e:
       logging.error(f"Error generating notes: {str(e)}")
       logger.error(f"[{request_id}] Error: {str(e)}")
       logger.error(f"[{request_id}] Traceback: {traceback.format_exc()}")
       logger.error(f"[{request_id}] Error in generate_notes: {str(e)}", exc_info=True)
+      sys.stderr.flush()
       import traceback
       logging.error(f"Traceback: {traceback.format_exc()}")
+      sys.stderr.flush()
       raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/py/books") 
