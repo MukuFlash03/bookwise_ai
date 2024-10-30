@@ -5,14 +5,7 @@ from db.operations import get_db_notes_context
 from api.types.custom_types import NoteGenerationContext
 import asyncio
 import logging
-import sys
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    stream=sys.stderr
-)
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 
@@ -26,28 +19,18 @@ async def analyze_notes(user_id: str, book_id: str, page_id: str):
   import time
   logging.info("Starting analyze_notes")
   print("Analyzing notes...")
-
-  request_id = time.time()
-  logger.info(f"[{request_id}] Starting analyze_notes")
   
   try:
       start_time = time.time()
-
-      step_start = time.time()
-      logger.info(f"[{request_id}] Starting database operations")
       note_generation_context = get_db_notes_context(user_id, book_id, page_id)
-      logger.info(f"[{request_id}] Database operations completed in {time.time() - step_start:.2f}s")
       logging.info("Note generation context:", note_generation_context)
       logging.info("Attempting chat completion...")
-      step_start = time.time()
-      logger.info(f"[{request_id}] Starting Claude API call")
       generated_note_response = await asyncio.create_task(get_chat_completion(note_generation_context))
-      logger.info(f"[{request_id}] Claude API call completed in {time.time() - step_start:.2f}s")
       logging.info("Chat completion:", generated_note_response)
       logging.info(f"analyze_notes completed in {time.time() - start_time:.2f} seconds")
       return generated_note_response
   except Exception as e:
-      logger.error(f"[{request_id}] Error in analyze_notes: {str(e)}", exc_info=True)
+      logging.info(f"Error in analyze_notes: {e}")
       return None
   
 async def get_chat_completion(note_generation_context: NoteGenerationContext):

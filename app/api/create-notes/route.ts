@@ -102,9 +102,6 @@ export async function POST(request: Request) {
 }
 
 async function generateNotes(pageDetailsID: PageDetailsID) {
-  const MAX_RETRIES = 2;
-  const INITIAL_TIMEOUT = 30000;
-
   console.log("Inside generateNotes route.ts");
   console.log("pageDetailsID: ", pageDetailsID);
   // console.log("API BASE URL: ", API_BASE_URL);
@@ -114,78 +111,64 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
   // const response = await fetch(`http://127.0.0.1:8000/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
   // const response = await fetch(`http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
 
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      console.log(`Attempt ${attempt + 1} of ${MAX_RETRIES + 1}`);
+  try {
+    // const url = `${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
 
-      // const url = `${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
+    const url = process.env.NODE_ENV === 'development'
+      ? `http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`
+      : `/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
 
-      const url = process.env.NODE_ENV === 'development'
-        ? `http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`
-        : `/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
+    console.log("Requesting URL:", url);
 
-      console.log("Requesting URL:", url);
+    const requestUrl = process.env.NODE_ENV === 'development'
+      ? url
+      : new URL(url, 'https://bookwise-ai.vercel.app').toString();
 
-      const requestUrl = process.env.NODE_ENV === 'development'
-        ? url
-        : new URL(url, 'https://bookwise-ai.vercel.app').toString();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 50000);
 
-      const controller = new AbortController();
-      const timeout = INITIAL_TIMEOUT * (attempt + 1); // Increase timeout with each retry
-      const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(requestUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    });
 
-      const response = await fetch(requestUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: controller.signal,
-      });
+    clearTimeout(timeoutId);
 
-      clearTimeout(timeoutId);
+    // const response = await fetch(`${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // });
 
-      // const response = await fetch(`${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
+    console.log("After fetching generated notes request");
+    console.log("Response status:", response.status);
 
-      console.log("After fetching generated notes request");
-      console.log("Response status:", response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Error response:", errorText);
-        console.error(`Attempt ${attempt + 1} failed:`, errorText);
-        throw new Error(`Failed to fetch generated notes: ${errorText}`);
-      }
-
-      const generatedNoteResponse = await response.json();
-      console.log("Generated note response:");
-      console.log(generatedNoteResponse);
-      console.log("********************************************");
-
-      console.log("Success on attempt", attempt + 1);
-
-      return generatedNoteResponse;
-    } catch (error: unknown) {
-      console.error("Error in generateNotes:", error);
-      console.error(`Error on attempt ${attempt + 1}:`, error);
-
-      if (attempt === MAX_RETRIES) {
-        throw error;
-      }
-
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          throw new Error('Request timed out after 50 seconds');
-        }
-        throw error;
-      }
-
-      // throw new Error('An unknown error occurred');
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response:", errorText);
+      throw new Error(`Failed to fetch generated notes: ${errorText}`);
     }
+
+    const generatedNoteResponse = await response.json();
+    console.log("Generated note response:");
+    console.log(generatedNoteResponse);
+    console.log("********************************************");
+
+    return generatedNoteResponse;
+  } catch (error: unknown) {
+    console.error("Error in generateNotes:", error);
+
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Request timed out after 50 seconds');
+      }
+      throw error;
+    }
+
+    throw new Error('An unknown error occurred');
   }
 }
