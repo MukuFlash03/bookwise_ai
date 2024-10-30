@@ -19,11 +19,8 @@ import { PageDetailsID } from '@/lib/types/pages_notes';
 //   : '';
 
 export async function POST(request: Request) {
-  console.log("=== POST Request Started ===");
-
   try {
     const { book_id, page_ids } = await request.json();
-    console.log("Request payload:", { book_id, page_ids });
 
     const supabase = createClient();
 
@@ -55,13 +52,10 @@ export async function POST(request: Request) {
     console.log("Before asking LLM to generate notes");
 
 
-    console.log("Starting note generation for pages:", page_ids);
-
     const notesPromises = page_ids.map(async (page_id: string) => {
       // const noteResponse = await analyzeNotes({ user_id: user_id, book_id: book_id, page_id: page_id });
-      console.log(`Processing page ${page_id}`);
       const noteResponse = await generateNotes({ user_id: user_id, book_id: book_id, page_id: page_id });
-      console.log(`Note response for page ${page_id}:`, noteResponse);
+      console.log("Note content response:", noteResponse);
       // const noteResponseJson = await noteResponse.json();
       // console.log("Note content:", noteResponseJson);
 
@@ -94,7 +88,6 @@ export async function POST(request: Request) {
     });
 
     const createdNotes = await Promise.all(notesPromises);
-    console.log("All notes created successfully:", createdNotes);
     // const createdNotes = "Hello";
 
     return NextResponse.json({ message: 'Notes created successfully', createdNotes });
@@ -105,8 +98,6 @@ export async function POST(request: Request) {
       error: 'Failed to create notes',
       details: error instanceof Error ? error.message : String(error)
     }, { status: 500 });
-  } finally {
-    console.log("=== POST Request Ended ===");
   }
 }
 
@@ -124,9 +115,9 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
   // const response = await fetch(`http://127.0.0.1:8000/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    console.log(`=== Attempt ${attempt + 1} of ${MAX_RETRIES + 1} ===`);
-
     try {
+      console.log(`Attempt ${attempt + 1} of ${MAX_RETRIES + 1}`);
+
       // const url = `${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`;
 
       const url = process.env.NODE_ENV === 'development'
@@ -139,53 +130,19 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
         ? url
         : new URL(url, 'https://bookwise-ai.vercel.app').toString();
 
-      console.log(`[Attempt ${attempt + 1}] Requesting URL:`, requestUrl);
-
       const controller = new AbortController();
-      const timeout = INITIAL_TIMEOUT * (attempt + 1);
+      const timeout = INITIAL_TIMEOUT * (attempt + 1); // Increase timeout with each retry
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-      try {
-        const response = await fetch(requestUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          signal: controller.signal,
-        });
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: controller.signal,
+      });
 
-        clearTimeout(timeoutId);
-
-        console.log(`[Attempt ${attempt + 1}] Response status:`, response.status);
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`[Attempt ${attempt + 1}] Error response:`, errorText);
-          throw new Error(`Failed to fetch generated notes: ${errorText}`);
-        }
-
-        const responseText = await response.text();
-        console.log(`[Attempt ${attempt + 1}] Raw response:`, responseText);
-
-        let generatedNoteResponse;
-        try {
-          generatedNoteResponse = JSON.parse(responseText);
-        } catch (parseError) {
-          console.error(`[Attempt ${attempt + 1}] Failed to parse JSON:`, parseError);
-          throw new Error(`Invalid JSON response: ${responseText}`);
-        }
-
-        console.log(`[Attempt ${attempt + 1}] Parsed response:`, generatedNoteResponse);
-
-        if (!generatedNoteResponse.generated_notes) {
-          throw new Error('Response missing generated_notes field');
-        }
-
-        return generatedNoteResponse;
-
-      } finally {
-        clearTimeout(timeoutId);
-      }
+      clearTimeout(timeoutId);
 
       // const response = await fetch(`${API_BASE_URL}/api/py/generate-notes-claude?user_id=${user_id}&book_id=${book_id}&page_id=${page_id}`, {
       //   method: 'GET',
@@ -194,45 +151,41 @@ async function generateNotes(pageDetailsID: PageDetailsID) {
       //   },
       // });
 
-      // console.log("After fetching generated notes request");
-      // console.log("Response status:", response.status);
+      console.log("After fetching generated notes request");
+      console.log("Response status:", response.status);
 
-      // if (!response.ok) {
-      //   const errorText = await response.text();
-      //   console.error("Error response:", errorText);
-      //   console.error(`Attempt ${attempt + 1} failed:`, errorText);
-      //   throw new Error(`Failed to fetch generated notes: ${errorText}`);
-      // }
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        console.error(`Attempt ${attempt + 1} failed:`, errorText);
+        throw new Error(`Failed to fetch generated notes: ${errorText}`);
+      }
 
-      // const generatedNoteResponse = await response.json();
-      // console.log("Generated note response:");
-      // console.log(generatedNoteResponse);
-      // console.log("********************************************");
+      const generatedNoteResponse = await response.json();
+      console.log("Generated note response:");
+      console.log(generatedNoteResponse);
+      console.log("********************************************");
 
-      // console.log("Success on attempt", attempt + 1);
+      console.log("Success on attempt", attempt + 1);
 
-      // return generatedNoteResponse;
-
+      return generatedNoteResponse;
     } catch (error: unknown) {
       console.error("Error in generateNotes:", error);
-      console.error(`[Attempt ${attempt + 1}] Error:`, error);
+      console.error(`Error on attempt ${attempt + 1}:`, error);
 
       if (attempt === MAX_RETRIES) {
         throw error;
       }
 
-      // if (error instanceof Error) {
-      //   if (error.name === 'AbortError') {
-      //     throw new Error('Request timed out after 50 seconds');
-      //   }
-      //   throw error;
-      // }
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          throw new Error('Request timed out after 50 seconds');
+        }
+        throw error;
+      }
 
-      const delay = Math.pow(2, attempt) * 1000;
-      console.log(`[Attempt ${attempt + 1}] Waiting ${delay}ms before retry`);
-      await new Promise(resolve => setTimeout(resolve, delay));
-      // await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
-
+      // throw new Error('An unknown error occurred');
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
     }
   }
 }
