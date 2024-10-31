@@ -67,8 +67,8 @@ Word Cloud <br><br>
 
 ## Tech Stack
 Core: React, TypeScript, NextJS, Python, FastAPI, Supabase <br>
-GenAI: E2B CodeInterpreter, Fireworks AI <br>
-LLMs: Claude 3.5 Sonnet <br>
+GenAI / LLMs: Claude 3.5 Sonnet <br>
+Mobile: iOS, Swift, SwiftUI, Xcode
 
 ---------
 
@@ -82,4 +82,10 @@ LLMs: Claude 3.5 Sonnet <br>
 ---------
 
 
+### iOS Prototype
+
+<img width="408" alt="Screenshot 2024-10-30 at 10 21 25 PM" src="https://github.com/user-attachments/assets/6bab5eee-855a-4326-a4cc-d76e2ab99350">
+
+
+<img width="408" alt="Screenshot 2024-10-30 at 10 21 17 PM" src="https://github.com/user-attachments/assets/57f19efe-77ab-4ee6-9918-eb0a50eb0614">
 
